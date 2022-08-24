@@ -5,9 +5,8 @@ from .piece import Piece
 class Board:
     def __init__(self):
         self.board = []
-        self.selected_piece = None
-        self.white_left = 2
-        self.black_left = 2
+        self.white_count = 2
+        self.black_count = 2
         self.create_board()
  
     def drawGrid(self, win):
@@ -26,10 +25,10 @@ class Board:
             for col in range(COLS):
                 self.board[row].append(0)
 
-        self.board[2][2] = Piece(2, 2, COLOR_WHITE)
-        self.board[2][3] = Piece(2, 3, COLOR_BLACK)
-        self.board[3][2] = Piece(3, 2, COLOR_BLACK)
-        self.board[3][3] = Piece(3, 3, COLOR_WHITE)
+        self.board[(ROWS // 2) - 1][(ROWS // 2) - 1] = Piece((ROWS // 2) - 1, (ROWS // 2) - 1, COLOR_WHITE)
+        self.board[(ROWS // 2) - 1][(ROWS // 2)] = Piece((ROWS // 2) - 1, (ROWS // 2), COLOR_BLACK)
+        self.board[(ROWS // 2)][(ROWS // 2) - 1] = Piece((ROWS // 2), (ROWS // 2) - 1, COLOR_BLACK)
+        self.board[(ROWS // 2)][(ROWS // 2)] = Piece((ROWS // 2), (ROWS // 2), COLOR_WHITE)
 
     def draw(self, win):
         for row in range(ROWS):
@@ -38,3 +37,9 @@ class Board:
                 if piece != 0:
                     piece.draw(win)
     
+    def add_piece(self, row, col):
+        if self.board[row][col] == 0:
+            self.board[row][col] = Piece(row, col, COLOR_BLACK)
+
+    def get_valid_moves():
+        pass
