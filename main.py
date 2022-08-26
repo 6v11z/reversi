@@ -5,11 +5,11 @@ from reversi.game import Game
 
 FPS = 60
 WIN = pygame.display.set_mode((WIDTH, HEIGTH))
-WIN.fill(COLOR_GREEN)
 pygame.display.set_caption("Reversi")
 
 def get_row_col_from_mouse(pos):
-    x, y = pos
+    x = pos[0] 
+    y = pos[1]
     row = int(y // SQUARE_SIZE)
     col = int(x // SQUARE_SIZE)
     return (row, col)
@@ -22,14 +22,23 @@ def main():
     while run:
         clock.tick(FPS)
 
+        # if (game.winner() != None):
+        #     print(game.winner())
+        #     run = False
+
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
-            if event.type == pygame.MOUSEBUTTONUP:
+    
+            if event.type == pygame.MOUSEBUTTONDOWN:
                 pos = get_row_col_from_mouse(pygame.mouse.get_pos())
-                row = pos[0]
-                col = pos[1]
-                # board.add_piece(row, col)
+                game.select(pos)
+
+            # Opcion para reiniciar el juego con la tecla R
+            # if event.type == pygame.KEYDOWN:
+            #     if event.key == pygame.K_r:
+            #         game.reset()
+
         game.update()
 
     pygame.quit()
