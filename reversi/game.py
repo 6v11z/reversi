@@ -18,6 +18,9 @@ class Game:
         self.win.fill(COLOR_GREEN)
         self.board.drawGrid(self.win)
         self.board.draw(self.win)
+        # Usar condicional cuando ya tenga implementada la IA
+        # if (self.turn == COLOR_BLACK):
+        #     self.draw_valid_moves()
         self.draw_valid_moves()
         pygame.display.update()
 
@@ -28,14 +31,8 @@ class Game:
         row = move[0]
         col = move[1]
         if (self.board.is_valid_move(row, col, self.turn)):
-            # self._add(row, col, self.turn)
-            print(True)
-        else:
-            print(False)
-
-    def _add(self, row, col):
-        if ((self.board[row][col] == 0) and ((row, col) in self.valid_moves)):
-            self.board.add_piece(row, col)
+            self.board.make_move(row, col, self.turn)
+            self.change_turn()
 
     def draw_valid_moves(self):
         valid_moves = self.board.get_valid_moves(self.turn)

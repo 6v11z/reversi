@@ -7,7 +7,7 @@ class Board:
         self.board = []
         self.white_count = 2
         self.black_count = 2
-        self.ramaining_spots = (ROWS ** 2) - (self.white_count + self.black_count)
+        self.empty_count = (ROWS * COLS) - (self.white_count + self.black_count)
         self.create_board()
 
     # Dibuja las lineas del tablero
@@ -41,13 +41,13 @@ class Board:
                 if (piece != 0):
                     piece.draw(win)
     
-    def is_valid_move(self, row, col, tile):
+    def is_valid_move(self, row, col, turn):
         if (self.board[row][col] != 0):
             return False
     
-        self.board[row][col] = str(tile)
+        self.board[row][col] = str(turn)
     
-        if (str(tile) == str(COLOR_BLACK)):
+        if (str(turn) == str(COLOR_BLACK)):
             other_tile = str(COLOR_WHITE)
         else:
             other_tile = str(COLOR_BLACK)
@@ -71,7 +71,7 @@ class Board:
                         break
                 if (not self.is_on_board(x, y)):
                     continue
-                if (str(self.board[x][y]) == str(tile)):
+                if (str(self.board[x][y]) == str(turn)):
                     while True:
                         x -= x_dir
                         y -= y_dir
@@ -92,17 +92,24 @@ class Board:
             else:
                 self.white_count += 1
 
-    # def winner(self):
-    #     if ((self.black_count < self.white_count) and (self.ramaining_spots == 0)):
-    #         return"Ha ganado el jugador blanco"
+    # Retorna: Booleano (True si el juego acabo, False en caso contrario)
+    def is_game_end(self):
+        if ((self.get_valid_moves(COLOR_BLACK) == []) or (self.get_valid_moves(COLOR_WHITE) == [])):
+            return True
 
-    #     if ((self.black_count > self.white_count) and (self.ramaining_spots == 0)):
-    #         return "Ha ganado el jugador negro"
+        return False
 
-    #     if ((self.black_count == self.white_count) and (self.ramaining_spots == 0)):
-    #         return "Empate"
+    def winner(self):
+        if ((self.black_count < self.white_count) and (self.is_game_end() == True)):
+            return "Ha ganado el jugador blanco"
 
-    #     return None
+        if ((self.black_count > self.white_count) and (self.is_game_end() == True)):
+            return "Ha ganado el jugador negro"
+
+        if ((self.black_count == self.white_count) and (self.is_game_end() == True)):
+            return "Empate"
+
+        return None
 
     # Retorna: booleano
     # Revisa si la fila y la columna estan dentro del tablero
@@ -120,3 +127,28 @@ class Board:
                 if (self.is_valid_move(row, col, turn)):
                     valid_moves.append(move)
         return valid_moves
+
+    def make_move(self, row, col, turn):
+        tiles_to_flip = self.is_valid_move(row, col, turn)
+        if tiles_to_flip == False:
+            return False
+    
+        self.board[row][col] = Piece(row, col, turn)
+        for tile in tiles_to_flip:
+            x = tile[0]
+            y = tile[1]
+            self.board[x][y] = Piece(x, y, turn)
+        self.update_tiles_count()
+        return True
+
+    def update_tiles_count(self):
+        black_count = 0
+        white_count = 0
+        for row in range(ROWS):
+            for col in range(COLS):
+                if (str(self.board[row][col]) == str((0, 0, 0))):
+                    black_count += 1
+                if (str(self.board[row][col]) == str((255, 255, 255))):
+                    white_count += 1
+        self.black_count = black_count
+        self.white_count = white_count

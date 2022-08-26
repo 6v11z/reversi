@@ -2,6 +2,7 @@ import pygame
 from reversi.board import Board
 from reversi.constants import COLOR_BLACK, SQUARE_SIZE, WIDTH, HEIGTH, COLOR_GREEN, ROWS
 from reversi.game import Game
+import time
 
 FPS = 60
 WIN = pygame.display.set_mode((WIDTH, HEIGTH))
@@ -18,13 +19,13 @@ def main():
     run = True
     clock = pygame.time.Clock()
     game = Game(WIN)
-
     while run:
         clock.tick(FPS)
 
-        # if (game.winner() != None):
-        #     print(game.winner())
-        #     run = False
+        if (game.winner() != None):
+            print(game.winner())
+            time.sleep(10)
+            run = False
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
