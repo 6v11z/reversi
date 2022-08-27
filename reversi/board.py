@@ -1,8 +1,9 @@
 import pygame
-from .constants import HEIGTH, WIDTH, COLS, ROWS, COLOR_WHITE, COLOR_BLACK, DIRECTIONS
+from .constants import COLOR_DARK_GREEN, HEIGTH, SCORE_HEIGHT, SCORE_WIDTH, WIDTH, COLS, ROWS, COLOR_WHITE, COLOR_BLACK, DIRECTIONS
 from .piece import Piece
 
 class Board:
+    pygame.init()
     def __init__(self):
         self.board = []
         self.white_count = 2
@@ -11,7 +12,7 @@ class Board:
         self.create_board()
 
     # Dibuja las lineas del tablero
-    def drawGrid(self, win):
+    def draw_grid(self, win):
         size = WIDTH // ROWS
         x = 0
         y = 0
@@ -20,6 +21,21 @@ class Board:
             y = y + size
             pygame.draw.line(win, COLOR_BLACK, (x, 0), (x, HEIGTH))
             pygame.draw.line(win, COLOR_BLACK, (0, y), (HEIGTH, y))
+
+    def draw_scores(self, win):
+        pygame.draw.rect(win, COLOR_DARK_GREEN, (0, WIDTH, SCORE_WIDTH, SCORE_HEIGHT))
+        font_size = 50
+        font = pygame.font.Font('freesansbold.ttf', font_size)
+
+        # Puntuacion negro
+        text_black = font.render(str(self.black_count), True, COLOR_WHITE, COLOR_BLACK)
+        pygame.draw.circle(win, COLOR_BLACK, (200, 650), 50)
+        win.blit(text_black, (200 - 13, WIDTH + 27))
+
+        # Puntuacion blanco
+        text_white = font.render(str(self.white_count), True, COLOR_BLACK, COLOR_WHITE)
+        pygame.draw.circle(win, COLOR_WHITE, (400, 650), 50)
+        win.blit(text_white, (400 - 13, WIDTH + 27))
 
     # Inicializa el tablero con los cuatro piezas iniciales
     def create_board(self):
@@ -101,12 +117,15 @@ class Board:
 
     def winner(self):
         if ((self.black_count < self.white_count) and (self.is_game_end() == True)):
+            print(1)
             return "Ha ganado el jugador blanco"
 
         if ((self.black_count > self.white_count) and (self.is_game_end() == True)):
+            print(2)
             return "Ha ganado el jugador negro"
 
         if ((self.black_count == self.white_count) and (self.is_game_end() == True)):
+            print(3)
             return "Empate"
 
         return None

@@ -1,11 +1,11 @@
 import pygame
 from reversi.board import Board
-from reversi.constants import COLOR_BLACK, SQUARE_SIZE, WIDTH, HEIGTH, COLOR_GREEN, ROWS
+from reversi.constants import COLOR_BLACK, SCREEN_HEIGHT, SQUARE_SIZE, SCREEN_WIDTH, SCORE_HEIGHT, WIDTH, SCORE_WIDTH
 from reversi.game import Game
 import time
 
 FPS = 60
-WIN = pygame.display.set_mode((WIDTH, HEIGTH))
+WIN = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 pygame.display.set_caption("Reversi")
 
 def get_row_col_from_mouse(pos):
@@ -23,8 +23,8 @@ def main():
         clock.tick(FPS)
 
         if (game.winner() != None):
-            print(game.winner())
-            time.sleep(10)
+            print(f"|| {game.winner()} ||")
+            time.sleep(3)
             run = False
 
         for event in pygame.event.get():
@@ -32,7 +32,10 @@ def main():
                 run = False
     
             if event.type == pygame.MOUSEBUTTONDOWN:
-                pos = get_row_col_from_mouse(pygame.mouse.get_pos())
+                pos = pygame.mouse.get_pos()
+                if pos[1] >= 600:
+                    continue
+                pos = get_row_col_from_mouse(pos)
                 game.select(pos)
 
             # Opcion para reiniciar el juego con la tecla R

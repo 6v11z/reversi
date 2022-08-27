@@ -1,7 +1,7 @@
 import pygame
 
 from reversi.piece import Piece
-from .constants import COLOR_BLACK, COLOR_WHITE, COLOR_GREEN, SQUARE_SIZE
+from .constants import COLOR_BLACK, COLOR_WHITE, COLOR_GREEN, SQUARE_SIZE, WIDTH, SCORE_WIDTH, SCORE_HEIGHT
 from .board import Board
 
 class Game:
@@ -16,7 +16,8 @@ class Game:
 
     def update(self):
         self.win.fill(COLOR_GREEN)
-        self.board.drawGrid(self.win)
+        self.board.draw_grid(self.win)
+        self.board.draw_scores(self.win)
         self.board.draw(self.win)
         # Usar condicional cuando ya tenga implementada la IA
         # if (self.turn == COLOR_BLACK):
@@ -43,7 +44,7 @@ class Game:
 
     def winner(self):
         return self.board.winner()
-
+        
     def change_turn(self):
         if (self.turn == COLOR_BLACK):
             self.turn = COLOR_WHITE
