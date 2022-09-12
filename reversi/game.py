@@ -1,8 +1,9 @@
 import pygame
-
-from reversi.piece import Piece
-from .constants import COLOR_BLACK, COLOR_WHITE, COLOR_GREEN, SQUARE_SIZE, WIDTH, SCORE_WIDTH, SCORE_HEIGHT
+import time
+from .piece import Piece
+from .constants import COLOR_BLACK, COLOR_WHITE, COLOR_GREEN, SQUARE_SIZE, WIDTH, SCORE_WIDTH, SCORE_HEIGHT, DEPTH
 from .board import Board
+from minimax.algorithm import bestMove
 
 class Game:
     def __init__(self, win):
@@ -44,9 +45,22 @@ class Game:
 
     def winner(self):
         return self.board.winner()
-        
+
     def change_turn(self):
         if (self.turn == COLOR_BLACK):
             self.turn = COLOR_WHITE
         else:
             self.turn = COLOR_BLACK
+
+    def get_board(self):
+        return self.board
+        
+    def evaluate(self):
+        return self.board.white_count - self.board.black_count
+        
+    def ai_move(self):
+        start = time.time()
+        move = bestMove(self.board)
+        self.select(move)
+        end = time.time()
+        print(f"la IA tardo {round(end - start, 2)} segundos en elegir una jugada, eligio {move}")

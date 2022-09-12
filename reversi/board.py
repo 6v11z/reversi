@@ -117,15 +117,12 @@ class Board:
 
     def winner(self):
         if ((self.black_count < self.white_count) and (self.is_game_end() == True)):
-            print(1)
             return "Ha ganado el jugador blanco"
 
         if ((self.black_count > self.white_count) and (self.is_game_end() == True)):
-            print(2)
             return "Ha ganado el jugador negro"
 
         if ((self.black_count == self.white_count) and (self.is_game_end() == True)):
-            print(3)
             return "Empate"
 
         return None
@@ -146,6 +143,14 @@ class Board:
                 if (self.is_valid_move(row, col, turn)):
                     valid_moves.append(move)
         return valid_moves
+
+    def get_all_pieces(self, color):
+        pieces = []
+        for row in self.board:
+            for piece in row:
+                if piece != 0 and piece.color == color:
+                    pieces.append(piece)
+        return pieces
 
     def make_move(self, row, col, turn):
         tiles_to_flip = self.is_valid_move(row, col, turn)
@@ -171,3 +176,6 @@ class Board:
                     white_count += 1
         self.black_count = black_count
         self.white_count = white_count
+    
+    def evaluate(self):
+        return (self.white_count - self.black_count)

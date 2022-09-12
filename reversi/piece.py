@@ -1,5 +1,5 @@
 import pygame 
-from .constants import SQUARE_SIZE, COLOR_BLACK
+from .constants import SQUARE_SIZE
 
 class Piece:
     PADDING = 10
@@ -7,10 +7,6 @@ class Piece:
         self.row = row
         self.col = col
         self.color = color
-        # if (self.color == COLOR_BLACK):
-        #     self.tile = "B"
-        # else:
-        #     self.tile = "W"
         self.x = 0
         self.y = 0
         self.calc_pos()

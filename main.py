@@ -1,8 +1,8 @@
 import pygame
-from reversi.board import Board
-from reversi.constants import COLOR_BLACK, SCREEN_HEIGHT, SQUARE_SIZE, SCREEN_WIDTH, SCORE_HEIGHT, WIDTH, SCORE_WIDTH
-from reversi.game import Game
 import time
+from reversi.board import Board
+from reversi.constants import COLOR_BLACK, COLOR_WHITE, SCREEN_HEIGHT, SQUARE_SIZE, SCREEN_WIDTH, SCORE_HEIGHT, WIDTH, SCORE_WIDTH
+from reversi.game import Game
 
 FPS = 60
 WIN = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
@@ -20,12 +20,15 @@ def main():
     clock = pygame.time.Clock()
     game = Game(WIN)
     while run:
-        clock.tick(FPS)
 
+        clock.tick(FPS)
         if (game.winner() != None):
             print(f"|| {game.winner()} ||")
-            time.sleep(3)
+            time.sleep(60)
             run = False
+
+        if (game.turn == COLOR_WHITE):
+            game.ai_move()
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:

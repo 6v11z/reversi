@@ -3,7 +3,7 @@ SCREEN_HEIGHT = 700
 
 WIDTH = 600
 HEIGTH = WIDTH
-ROWS = 4
+ROWS = 8
 COLS = ROWS
 SQUARE_SIZE = WIDTH / ROWS
 
@@ -16,3 +16,6 @@ DIRECTIONS = [(0, 1), (1, 1), (1, 0), (1, -1), (0, -1), (-1, -1), (-1, 0), (-1, 
 
 SCORE_WIDTH = WIDTH
 SCORE_HEIGHT = 100
+
+# IA
+DEPTH = 4
